@@ -26,5 +26,10 @@ class Feedback(models.Model):
     title = models.CharField(max_length=128, null=False, blank=False)
     content = models.CharField(max_length=1024, null=False, blank=False)
     owner = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
 
 
+class UserChallengeProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    progress = models.ForeignKey('Progress', on_delete=models.CASCADE)
