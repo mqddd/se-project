@@ -17,8 +17,9 @@ class Challenge(models.Model):
     repetition = models.IntegerField(null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
     end_date = models.DateTimeField(null=False, blank=False)
-    type = models.CharField(max_length=64, null=False, blank=False)
+    progress_type = models.CharField(max_length=64, null=False, blank=False)
     icon = models.FileField(upload_to='files/challenge_icon')
+    private_public_type = models.CharField(max_length=64, null=False, blank=False)
     category = models.OneToOneField('Category', on_delete=models.CASCADE)
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(null=False, blank=False)
@@ -28,8 +29,18 @@ class Challenge(models.Model):
 class UserChallengeProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
-    percent_progress = models.ForeignKey('Progress', on_delete=models.CASCADE)
-    boolean_progress = models.ForeignKey('Progress', on_delete=models.CASCADE)
+    percent_progress = models.ForeignKey('PercentProgress', on_delete=models.CASCADE)
+    boolean_progress = models.ForeignKey('BooleanProgress', on_delete=models.CASCADE)
+
+
+class PercentProgress(models.Model):
+    time = models.DateTimeField(null=False, blank=False)
+    percent = models.IntegerField(null=False, blank=False)
+
+
+class BooleanProgress(models.Model):
+    time = models.DateTimeField(null=False, blank=False)
+    bool_progress = models.BooleanField(null=False, blank=False)
 
 
 class Category(models.Model):
