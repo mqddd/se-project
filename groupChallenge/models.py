@@ -1,29 +1,30 @@
 from django.db import models
+from datetime import datetime
 
 
 class User(models.Model):
-    user_name = models.CharField(max_length=64, null=False, blank=False)
-    email = models.CharField(max_length=64, null=False, blank=False)
-    password = models.CharField(max_length=64, null=False, blank=False)
+    user_name = models.CharField(max_length=64)
+    email = models.CharField(max_length=64)
+    password = models.CharField(max_length=64)
     avatar = models.FileField(upload_to='files/user_avatar')
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False)
+    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField()
 
 
 class Challenge(models.Model):
-    title = models.CharField(max_length=128, null=False, blank=False)
-    description = models.CharField(max_length=1024, null=False, blank=False)
+    title = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024)
     like_number = models.IntegerField()
-    repetition = models.IntegerField(null=False, blank=False)
-    start_date = models.DateTimeField(null=False, blank=False)
-    end_date = models.DateTimeField(null=False, blank=False)
-    progress_type = models.CharField(max_length=64, null=False, blank=False)
+    repetition = models.IntegerField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    progress_type = models.CharField(max_length=64)
     icon = models.FileField(upload_to='files/challenge_icon')
-    private_public_type = models.CharField(max_length=64, null=False, blank=False)
+    private_public_type = models.CharField(max_length=64)
     category = models.OneToOneField('Category', on_delete=models.CASCADE)
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False)
+    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField()
 
 
 class UserChallengeProgress(models.Model):
@@ -34,23 +35,23 @@ class UserChallengeProgress(models.Model):
 
 
 class PercentProgress(models.Model):
-    time = models.DateTimeField(null=False, blank=False)
-    percent = models.IntegerField(null=False, blank=False)
+    time = models.DateTimeField()
+    percent = models.IntegerField()
 
 
 class BooleanProgress(models.Model):
-    time = models.DateTimeField(null=False, blank=False)
-    bool_progress = models.BooleanField(null=False, blank=False)
+    time = models.DateTimeField()
+    bool_progress = models.BooleanField()
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=64, null=False, blank=False)
+    title = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False)
+    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField()
 
 
 class Feedback(models.Model):
-    title = models.CharField(max_length=128, null=False, blank=False)
-    content = models.CharField(max_length=1024, null=False, blank=False)
-    owner = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
+    title = models.CharField(max_length=128)
+    content = models.CharField(max_length=1024)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
