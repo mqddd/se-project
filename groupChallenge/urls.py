@@ -1,7 +1,12 @@
-from django.conf.urls import url
+from django.urls import include, path
+from rest_framework import routers
 from . import views
 
+
+router = routers.DefaultRouter()
+router.register(r'challenges', views.ChallengeViewSet)
+
 urlpatterns = [
-    url(r'^challenges/$', views.AllChallengesApiView.as_view(), name='challenges'),
-    url(r'^createchallenge/$', views.CreateChallengeApiView.as_view(), name='createChallenge'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

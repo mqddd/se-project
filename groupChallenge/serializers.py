@@ -1,14 +1,21 @@
 from rest_framework import serializers
+from .models import *
 
 
-class createChallengeSerializer(serializers.Serializer):
-    title = serializers.CharField(required=True)
-    description = serializers.CharField()
-    repetition = serializers.IntegerField(required=True, allow_null=False)
-    start_date = serializers.DateTimeField(required=True, allow_null=False)
-    end_date = serializers.DateTimeField(required=True, allow_null=False)
-    progress_type = serializers.CharField(required=True, allow_null=False)
-    icon = serializers.FileField()
-    private_public_type = serializers.CharField(required=True, allow_null=False)
-    category_id = serializers.IntegerField()
-    # owner_id = serializers.IntegerField(required=True, allow_null=False)
+class ChallengeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Challenge
+        fields = ['id', 'title', 'description', 'like_number', 'days', 'start_date', 'end_date', 'progress_type', 'icon',
+                  'private_public_type']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'user_name', 'email', 'password']
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'description']
