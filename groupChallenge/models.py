@@ -25,8 +25,8 @@ class Challenge(models.Model):
     icon = models.FileField(upload_to='files/challenge_icon')
     private_public_type = models.CharField(max_length=64, null=False, blank=False)
     category = models.ManyToManyField('Category', through='ChallengeCategory', blank=False)
-    # owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False)
-    users = models.ManyToManyField(User, through='UserChallengeProgress')
+    owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
+    users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress')
     updated_at = models.DateTimeField(null=False, blank=False)
     created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
 
@@ -37,8 +37,8 @@ class Challenge(models.Model):
 class UserChallengeProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
-    percent_progress = models.ForeignKey('PercentProgress', on_delete=models.CASCADE)
-    boolean_progress = models.ForeignKey('BooleanProgress', on_delete=models.CASCADE)
+    percent_progress = models.ForeignKey('PercentProgress', on_delete=models.SET_NULL, null=True, blank=False)
+    boolean_progress = models.ForeignKey('BooleanProgress', on_delete=models.SET_NULL, null=True, blank=False)
 
 
 class PercentProgress(models.Model):
@@ -78,7 +78,7 @@ class ChallengeCategory(models.Model):
 class Feedback(models.Model):
     title = models.CharField(max_length=128)
     content = models.CharField(max_length=1024, null=False, blank=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False)
 
     def __str__(self):
         return self.title
