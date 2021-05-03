@@ -1,5 +1,4 @@
 from django.db import models
-from datetime import datetime
 
 
 class User(models.Model):
@@ -7,8 +6,8 @@ class User(models.Model):
     email = models.CharField(max_length=64, null=False, blank=False, unique=True)
     password = models.CharField(max_length=64, null=False, blank=False)
     avatar = models.FileField(upload_to='files/user_avatar')
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user_name
@@ -27,8 +26,8 @@ class Challenge(models.Model):
     category = models.ManyToManyField('Category', through='ChallengeCategory', blank=False)
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
     users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress')
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -46,7 +45,7 @@ class PercentProgress(models.Model):
     percent = models.IntegerField(null=False, blank=False)
 
     def __str__(self):
-        return self.time, self.percent
+        return self.id
 
 
 class BooleanProgress(models.Model):
@@ -54,14 +53,14 @@ class BooleanProgress(models.Model):
     bool_progress = models.BooleanField(null=False, blank=False)
 
     def __str__(self):
-        return self.time, self.bool_progress
+        return self.id
 
 
 class Category(models.Model):
     title = models.CharField(max_length=64, null=False, blank=False)
     description = models.CharField(max_length=1024, null=False, blank=False)
-    updated_at = models.DateTimeField(null=False, blank=False)
-    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -72,7 +71,7 @@ class ChallengeCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
-        return self.challenge, self.category
+        return self.id
 
 
 class Feedback(models.Model):
