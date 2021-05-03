@@ -3,55 +3,82 @@ from datetime import datetime
 
 
 class User(models.Model):
-    user_name = models.CharField(max_length=64)
-    email = models.CharField(max_length=64)
-    password = models.CharField(max_length=64)
+    user_name = models.CharField(max_length=64, null=False, blank=False, unique=True)
+    email = models.CharField(max_length=64, null=False, blank=False, unique=True)
+    password = models.CharField(max_length=64, null=False, blank=False)
     avatar = models.FileField(upload_to='files/user_avatar')
-    updated_at = models.DateTimeField()
-    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField(null=False, blank=False)
+    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+
+    def __str__(self):
+        return self.user_name
 
 
 class Challenge(models.Model):
-    title = models.CharField(max_length=128)
-    description = models.CharField(max_length=1024)
+    title = models.CharField(max_length=128, null=False, blank=False)
+    description = models.CharField(max_length=1024, null=False, blank=False)
     like_number = models.IntegerField()
-    repetition = models.IntegerField()
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    progress_type = models.CharField(max_length=64)
+    repetition = models.IntegerField(null=False, blank=False)
+    start_date = models.DateTimeField(null=False, blank=False)
+    end_date = models.DateTimeField(null=False, blank=False)
+    progress_type = models.CharField(max_length=64, null=False, blank=False)
     icon = models.FileField(upload_to='files/challenge_icon')
-    private_public_type = models.CharField(max_length=64)
-    category = models.OneToOneField('Category', on_delete=models.CASCADE)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    updated_at = models.DateTimeField()
-    created_at = models.DateTimeField()
+    private_public_type = models.CharField(max_length=64, null=False, blank=False)
+    category = models.ManyToManyField('Category', through='ChallengeCategory', blank=False)
+    # owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False)
+    users = models.ManyToManyField(User, through='UserChallengeProgress')
+    updated_at = models.DateTimeField(null=False, blank=False)
+    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+
+    def __str__(self):
+        return self.title
 
 
 class UserChallengeProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
     percent_progress = models.ForeignKey('PercentProgress', on_delete=models.CASCADE)
     boolean_progress = models.ForeignKey('BooleanProgress', on_delete=models.CASCADE)
 
 
 class PercentProgress(models.Model):
-    time = models.DateTimeField()
-    percent = models.IntegerField()
+    time = models.DateTimeField(null=False, blank=False)
+    percent = models.IntegerField(null=False, blank=False)
+
+    def __str__(self):
+        return self.time, self.percent
 
 
 class BooleanProgress(models.Model):
-    time = models.DateTimeField()
-    bool_progress = models.BooleanField()
+    time = models.DateTimeField(null=False, blank=False)
+    bool_progress = models.BooleanField(null=False, blank=False)
+
+    def __str__(self):
+        return self.time, self.bool_progress
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=64)
-    description = models.CharField(max_length=1024)
-    updated_at = models.DateTimeField()
-    created_at = models.DateTimeField()
+    title = models.CharField(max_length=64, null=False, blank=False)
+    description = models.CharField(max_length=1024, null=False, blank=False)
+    updated_at = models.DateTimeField(null=False, blank=False)
+    created_at = models.DateTimeField(null=False, blank=False, default=datetime.now)
+
+    def __str__(self):
+        return self.title
+
+
+class ChallengeCategory(models.Model):
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        return self.challenge, self.category
 
 
 class Feedback(models.Model):
     title = models.CharField(max_length=128)
-    content = models.CharField(max_length=1024)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=1024, null=False, blank=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+
+    def __str__(self):
+        return self.title
