@@ -8,7 +8,7 @@ class User(models.Model):
     user_name = models.CharField(max_length=64, null=False, blank=False, unique=True)
     email = models.CharField(max_length=64, null=False, blank=False, unique=True)
     password = models.CharField(max_length=64, null=False, blank=False)
-    avatar = models.FileField(upload_to='files/user_avatar')
+    avatar = models.ImageField(upload_to='files/user_avatar')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -36,7 +36,7 @@ class Challenge(models.Model):
     start_date = models.DateTimeField(null=False, blank=False)
     end_date = models.DateTimeField(null=False, blank=False)
     progress_type = models.CharField(max_length=2, choices=PROGRESS_TYPE, null=False, blank=False)
-    icon = models.FileField(upload_to='files/challenge_icon')
+    icon = models.ImageField(upload_to='files/challenge_icon')
     private_public_type = models.CharField(max_length=2, choices=PRIVACY_TYPE, null=False, blank=False)
     category = models.ManyToManyField('Category', through='ChallengeCategory', blank=False)
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
