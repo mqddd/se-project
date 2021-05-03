@@ -16,7 +16,7 @@ class User(models.Model):
 
 class Challenge(models.Model):
     title = models.CharField(max_length=128, null=False, blank=False)
-    description = models.CharField(max_length=1024, null=False, blank=False)
+    description = models.CharField(max_length=1024)
     like_number = models.IntegerField()
     repetition = models.IntegerField(null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)

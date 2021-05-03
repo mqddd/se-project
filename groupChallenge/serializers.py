@@ -10,5 +10,5 @@ class createChallengeSerializer(serializers.Serializer):
     progress_type = serializers.CharField(required=True, allow_null=False)
     icon = serializers.FileField()
     private_public_type = serializers.CharField(required=True, allow_null=False)
-    category_id = serializers.IntegerField(required=True, allow_null=False)
-    owner_id = serializers.IntegerField(required=True, allow_null=False)
+    category_id = serializers.IntegerField()
+    # owner_id = serializers.IntegerField(required=True, allow_null=False)
