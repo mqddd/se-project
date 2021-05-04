@@ -5,11 +5,14 @@ from . import views
 urlpatterns = format_suffix_patterns([
     path('challenges/',
          views.ChallengeListView.as_view({'get': 'list'}),
-         name='challenges-list'),
+         name='challenge-list'),
     path('challenge/<int:pk>/',
          views.ChallengeDetailView.as_view({'get': 'retrieve'}),
          name='challenge-detail'),
     path('challenge/add/',
          views.ChallengeAddView.as_view({'post': 'create'}),
-         name='challenge-add')
+         name='challenge-add'),
+    path('challenge/<int:pk>/update',
+         views.ChallengeUpdateView.as_view({'post': 'update'}),
+         name='challenge-update')
 ])

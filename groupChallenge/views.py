@@ -15,3 +15,8 @@ class ChallengeDetailView(viewsets.ReadOnlyModelViewSet):
 class ChallengeAddView(viewsets.ModelViewSet):
     queryset = Challenge.objects.all()
     serializer_class = ChallengeAddSerializer
+
+
+class ChallengeUpdateView(viewsets.ModelViewSet):
+    queryset = Challenge.objects.all()
+    serializer_class = ChallengeAddSerializer
