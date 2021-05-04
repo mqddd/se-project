@@ -20,3 +20,7 @@ class ChallengeAddView(viewsets.ModelViewSet):
 class ChallengeUpdateView(viewsets.ModelViewSet):
     queryset = Challenge.objects.all()
     serializer_class = ChallengeAddSerializer
+
+
+class ChallengeDeleteView(viewsets.ModelViewSet):
+    queryset = Challenge.objects.all()

@@ -14,5 +14,8 @@ urlpatterns = format_suffix_patterns([
          name='challenge-add'),
     path('challenge/<int:pk>/update',
          views.ChallengeUpdateView.as_view({'post': 'update'}),
-         name='challenge-update')
+         name='challenge-update'),
+    path('challenge/<int:pk>/delete',
+         views.ChallengeDeleteView.as_view({'post': 'destroy'}),
+         name='challenge-delete'),
 ])
