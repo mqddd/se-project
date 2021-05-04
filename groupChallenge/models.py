@@ -9,7 +9,7 @@ class User(models.Model):
     user_name = models.CharField(max_length=64, null=False, blank=False, unique=True)
     email = models.EmailField(max_length=64, null=False, blank=False, unique=True)
     password = models.CharField(max_length=64, null=False, blank=False)
-    avatar = models.ImageField(upload_to='files/user_avatar')
+    avatar = models.ImageField(upload_to='files/user_avatar', null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -47,19 +47,19 @@ class Challenge(models.Model):
         (SATURDAY, 'SAT'),
     )
     title = models.CharField(max_length=128, null=False, blank=False)
-    description = models.TextField(max_length=1024)
-    like_number = models.IntegerField(default=0)
+    description = models.TextField(max_length=1024, blank=True)
+    like_number = models.IntegerField(default=0, blank=True)
     days = ArrayField(
         models.CharField(max_length=3, choices=DAYS, null=False, blank=False)
     )
     start_date = models.DateField(null=False, blank=False)
     end_date = models.DateField(null=False, blank=False)
     progress_type = models.CharField(max_length=2, choices=PROGRESS_TYPE, null=False, blank=False)
-    icon = models.ImageField(upload_to='files/challenge_icon')
+    icon = models.ImageField(upload_to='files/challenge_icon', blank=True)
     private_public_type = models.CharField(max_length=2, choices=PRIVACY_TYPE, null=False, blank=False)
-    category = models.ManyToManyField('Category', through='ChallengeCategory', blank=False)
+    category = models.ManyToManyField('Category', through='ChallengeCategory', blank=True)
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
-    users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress')
+    users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress', null=False, blank=False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -118,7 +118,7 @@ class ChallengeCategory(models.Model):
 
 
 class Feedback(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, null=True, blank=True)
     content = models.TextField(max_length=1024, null=False, blank=False)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False)
 
