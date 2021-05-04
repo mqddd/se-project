@@ -9,4 +9,7 @@ urlpatterns = format_suffix_patterns([
     path('challenge/<int:pk>/',
          views.ChallengeDetailView.as_view({'get': 'retrieve'}),
          name='challenge-detail'),
+    path('challenge/add/',
+         views.ChallengeAddView.as_view({'post': 'create'}),
+         name='challenge-add')
 ])

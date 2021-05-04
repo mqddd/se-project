@@ -10,6 +10,13 @@ class ChallengeListSerializer(serializers.ModelSerializer):
                   , 'icon', 'private_public_type']
 
 
+class ChallengeAddSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Challenge
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
