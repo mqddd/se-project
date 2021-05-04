@@ -1,12 +1,12 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
-
-router = routers.DefaultRouter()
-router.register(r'challenges', views.ChallengeViewSet)
-
-urlpatterns = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-]
+urlpatterns = format_suffix_patterns([
+    path('challenges/',
+         views.ChallengeListView.as_view({'get': 'list'}),
+         name='challenges-list'),
+    path('challenge/<int:pk>/',
+         views.ChallengeDetailView.as_view({'get': 'retrieve'}),
+         name='challenge-detail'),
+])

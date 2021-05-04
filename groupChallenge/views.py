@@ -2,6 +2,11 @@ from .serializers import *
 from rest_framework import viewsets
 
 
-class ChallengeViewSet(viewsets.ModelViewSet):
+class ChallengeListView(viewsets.ReadOnlyModelViewSet):
     queryset = Challenge.objects.all()
-    serializer_class = ChallengeSerializer
+    serializer_class = ChallengeListSerializer
+
+
+class ChallengeDetailView(viewsets.ReadOnlyModelViewSet):
+    queryset = Challenge.objects.all()
+    serializer_class = ChallengeDetailSerializer
