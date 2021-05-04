@@ -48,7 +48,7 @@ class Challenge(models.Model):
     )
     title = models.CharField(max_length=128, null=False, blank=False)
     description = models.TextField(max_length=1024)
-    like_number = models.IntegerField()
+    like_number = models.IntegerField(default=0)
     days = ArrayField(
         models.CharField(max_length=3, choices=DAYS, null=False, blank=False)
     )
@@ -65,6 +65,9 @@ class Challenge(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['like_number']
 
 
 class UserChallengeProgress(models.Model):
@@ -84,7 +87,7 @@ class PercentProgress(models.Model):
     user_challenge_progress = GenericRelation(UserChallengeProgress)
 
     def __str__(self):
-        return str(self.time) + ' | ' + str(self.percent)
+        return 'Time: %s | Percent: %s' % (self.time, self.percent)
 
 
 class BooleanProgress(models.Model):
@@ -93,7 +96,7 @@ class BooleanProgress(models.Model):
     user_challenge_progress = GenericRelation(UserChallengeProgress)
 
     def __str__(self):
-        return str(self.time) + ' | ' + str(self.bool_progress)
+        return 'Time: %s | Done: %s' % (self.time, self.bool_progress)
 
 
 class Category(models.Model):
@@ -111,7 +114,7 @@ class ChallengeCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
-        return self.challenge.title + ' | ' + self.category.title
+        return 'Challenge: %s | Category: %s' % (self.challenge.title, self.category.title)
 
 
 class Feedback(models.Model):
