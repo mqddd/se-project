@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-u23)5wvf3*r-us2&rkal)u)v1i#1weg=0f1ke01qb7rxn6ap9a
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'b6a137a8bfe7.ngrok.io',
+    'b5d4d6ae5e38.ngrok.io',
     '127.0.0.1'
 ]
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'django.contrib.sites',
     'dj_rest_auth.registration',
+    'groupChallenge',
 
 ]
 
