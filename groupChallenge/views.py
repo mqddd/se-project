@@ -24,3 +24,9 @@ class ChallengeUpdateView(viewsets.ModelViewSet):
 
 class ChallengeDeleteView(viewsets.ModelViewSet):
     queryset = Challenge.objects.all()
+
+
+# test views
+class UserDetailView(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer

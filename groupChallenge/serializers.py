@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import *
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    user_name = serializers.ReadOnlyField(source='user.username')
+    email = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
-        model = CustomUser
-        fields = ['id', 'user_name', 'avatar']
+        model = Profile
+        fields = ['id', 'user_name', 'email', 'avatar']
 
 
 class ChallengeListSerializer(serializers.ModelSerializer):
@@ -18,17 +20,21 @@ class ChallengeListSerializer(serializers.ModelSerializer):
 
 
 class ChallengeAddSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.user_name')
-    users = UserSerializer(many=True, read_only=True)
+    users = ProfileSerializer(many=True, read_only=True)
 
     class Meta:
         model = Challenge
         fields = '__all__'
 
+    def to_representation(self, instance):
+        self.fields['owner'] = ProfileSerializer(read_only=True)
+        return super(ChallengeAddSerializer, self).to_representation(instance)
+
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.user_name')
-    users = UserSerializer(many=True, read_only=True)
+    # owner = serializers.ReadOnlyField(source='owner.user.username')
+    owner = serializers.ReadOnlyField(source='owner.id')
+    users = ProfileSerializer(many=True, read_only=True)
 
     class Meta:
         model = Challenge
@@ -41,3 +47,4 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'title', 'description']
+
