@@ -32,8 +32,13 @@ class ChallengeAddSerializer(serializers.ModelSerializer):
 
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
+<<<<<<< HEAD
+    owner = UserSerializer(read_only=True, source='owner.user_name')
+    users = UserSerializer(many=True, read_only=True)
+=======
     owner = serializers.ReadOnlyField(source='owner.id')
     users = ProfileSerializer(many=True, read_only=True)
+>>>>>>> challenge-api
 
     class Meta:
         model = Challenge
