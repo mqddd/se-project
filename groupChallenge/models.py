@@ -3,18 +3,15 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.auth.models import User
 
 
-class User(models.Model):
-    user_name = models.CharField(max_length=64, null=False, blank=False, unique=True)
-    email = models.EmailField(max_length=64, null=False, blank=False, unique=True)
-    password = models.CharField(max_length=64, null=False, blank=False)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='files/user_avatar', null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user_name
+        return self.user.username
 
 
 class Challenge(models.Model):
@@ -58,8 +55,8 @@ class Challenge(models.Model):
     icon = models.ImageField(upload_to='files/challenge_icon', blank=True)
     private_public_type = models.CharField(max_length=2, choices=PRIVACY_TYPE, null=False, blank=False)
     category = models.ManyToManyField('Category', through='ChallengeCategory', blank=True)
-    owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
-    users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress', null=False, blank=False)
+    owner = models.ForeignKey(Profile, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
+    users = models.ManyToManyField(Profile, related_name='users', through='UserChallengeProgress', null=False, blank=False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -71,14 +68,14 @@ class Challenge(models.Model):
 
 
 class UserChallengeProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False, blank=False)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
-        return self.user.user_name + ' | ' + self.challenge.title
+        return self.user.user.username + ' | ' + self.challenge.title
 
 
 class PercentProgress(models.Model):
@@ -120,7 +117,7 @@ class ChallengeCategory(models.Model):
 class Feedback(models.Model):
     title = models.CharField(max_length=128, null=True, blank=True)
     content = models.TextField(max_length=1024, null=False, blank=False)
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False)
+    owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=False)
 
     def __str__(self):
         return self.title
