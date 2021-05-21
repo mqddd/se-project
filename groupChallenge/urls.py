@@ -6,7 +6,7 @@ urlpatterns = format_suffix_patterns([
     path('challenges/',
          views.ChallengeListView.as_view({'get': 'list'}),
          name='challenge-list'),
-    path('myChallenges/',
+    path('my-challenges/',
          views.ChallengeListViewForUser.as_view({'get': 'list'}),
          name='my-challenge-list'),
     path('challenge/<int:pk>/',
