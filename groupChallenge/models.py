@@ -77,7 +77,7 @@ class UserChallengeProgress(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
-        return self.user.user_name + ' | ' + self.challenge.title
+        return self.user.user.username + ' | ' + self.challenge.title
 
 
 class PercentProgress(models.Model):
