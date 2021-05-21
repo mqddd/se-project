@@ -27,7 +27,7 @@ class ChallengeAddSerializer(serializers.ModelSerializer):
 
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.user_name')
+    owner = UserSerializer(read_only=True, source='owner.user_name')
     users = UserSerializer(many=True, read_only=True)
 
     class Meta:
