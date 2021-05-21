@@ -26,6 +26,11 @@ class ChallengeDeleteView(viewsets.ModelViewSet):
     queryset = Challenge.objects.all()
 
 
+class FeedbackAddView(viewsets.ModelViewSet):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackAddSerializer
+
+
 # test views
 class UserDetailView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()

@@ -18,6 +18,9 @@ urlpatterns = format_suffix_patterns([
     path('challenge/<int:pk>/delete',
          views.ChallengeDeleteView.as_view({'post': 'destroy'}),
          name='challenge-delete'),
+    path('feedback/add/',
+         views.FeedbackAddView.as_view({'post': 'create'}),
+         name='feedback-add'),
     # test paths
     path('user/<int:pk>',
          views.UserDetailView.as_view({'get': 'retrieve'}),

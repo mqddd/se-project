@@ -27,24 +27,33 @@ class ChallengeAddSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        self.fields['owner'] = ProfileSerializer(read_only=True)
+        self.fields['owner'] = serializers.ReadOnlyField(source='owner.id')
         return super(ChallengeAddSerializer, self).to_representation(instance)
 
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
-    # owner = serializers.ReadOnlyField(source='owner.user.username')
     owner = serializers.ReadOnlyField(source='owner.id')
     users = ProfileSerializer(many=True, read_only=True)
 
     class Meta:
         model = Challenge
-        fields = ['id', 'title', 'description', 'days', 'like_number', 'start_date', 'end_date', 'progress_type'
-                  , 'icon', 'private_public_type', 'category', 'owner', 'users']
+        fields = '__all__'
+
+
+class FeedbackAddSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Feedback
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        self.fields['owner'] = serializers.ReadOnlyField(source='owner.id')
+        return super(FeedbackAddSerializer, self).to_representation(instance)
 
 
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'description']
+        fields = '__all__'
 
