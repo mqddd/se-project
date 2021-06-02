@@ -55,7 +55,7 @@ class Challenge(models.Model):
     start_date = models.DateField(null=False, blank=False)
     end_date = models.DateField(null=False, blank=False)
     progress_type = models.CharField(max_length=2, choices=PROGRESS_TYPE, null=False, blank=False)
-    icon = models.ImageField(upload_to='files/challenge_icon', blank=True)
+    icon = models.ImageField(upload_to='files/challenge_icon', blank=True, null=True)
     private_public_type = models.CharField(max_length=2, choices=PRIVACY_TYPE, null=False, blank=False)
     category = models.ManyToManyField('Category', through='ChallengeCategory', blank=True)
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
