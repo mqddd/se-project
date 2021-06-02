@@ -24,6 +24,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^', include('groupChallenge.urls')),
+    path('api/auth/', include('account.urls'), name='auth'),
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
