@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'groupChallenge',
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {
@@ -51,6 +52,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':
         ['rest_framework.permissions.IsAuthenticated'],
     'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
 }
 
 MIDDLEWARE = [

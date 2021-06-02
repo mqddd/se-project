@@ -1,0 +1,771 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/token/verify/:
+    post:
+      operationId: api_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+  /challenge/{id}/:
+    get:
+      operationId: challenge_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeDetail'
+          description: ''
+  /challenge/{id}{format}:
+    get:
+      operationId: challenge_formatted_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeDetail'
+          description: ''
+  /challenge/{id}/delete:
+    post:
+      operationId: challenge_delete_create
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeList'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /challenge/{id}/delete{format}:
+    post:
+      operationId: challenge_delete_formatted_create
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeList'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /challenge/{id}/update:
+    post:
+      operationId: challenge_update_create
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeAdd'
+          description: ''
+  /challenge/{id}/update{format}:
+    post:
+      operationId: challenge_update_formatted_create
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeAdd'
+          description: ''
+  /challenge/add/:
+    post:
+      operationId: challenge_add_create
+      description: ''
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeAdd'
+          description: ''
+  /challenge/add{format}:
+    post:
+      operationId: challenge_add_formatted_create
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeAdd'
+          description: ''
+  /challenges/:
+    get:
+      operationId: challenges_list
+      description: ''
+      tags:
+      - challenges
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /challenges{format}:
+    get:
+      operationId: challenges_formatted_list
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - challenges
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /feedback/add/:
+    post:
+      operationId: feedback_add_create
+      description: ''
+      tags:
+      - feedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackAdd'
+          description: ''
+  /feedback/add{format}:
+    post:
+      operationId: feedback_add_formatted_create
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - feedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackAdd'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackAdd'
+          description: ''
+  /my-challenges/:
+    get:
+      operationId: my_challenges_list
+      description: ''
+      tags:
+      - my-challenges
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /my-challenges{format}:
+    get:
+      operationId: my_challenges_formatted_list
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - my-challenges
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeList'
+          description: ''
+  /user/{id}:
+    get:
+      operationId: user_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - user
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /user/{id}{format}:
+    get:
+      operationId: user_formatted_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - user
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+components:
+  schemas:
+    ChallengeAdd:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 128
+        description:
+          type: string
+          maxLength: 1024
+        like_number:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/DaysEnum'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        progress_type:
+          $ref: '#/components/schemas/ProgressTypeEnum'
+        icon:
+          type: string
+          format: uri
+        private_public_type:
+          $ref: '#/components/schemas/PrivatePublicTypeEnum'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        owner:
+          type: integer
+          nullable: true
+        category:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - category
+      - created_at
+      - days
+      - end_date
+      - id
+      - private_public_type
+      - progress_type
+      - start_date
+      - title
+      - updated_at
+      - users
+    ChallengeDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        owner:
+          type: integer
+          readOnly: true
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 128
+        description:
+          type: string
+          maxLength: 1024
+        like_number:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/DaysEnum'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        progress_type:
+          $ref: '#/components/schemas/ProgressTypeEnum'
+        icon:
+          type: string
+          format: uri
+        private_public_type:
+          $ref: '#/components/schemas/PrivatePublicTypeEnum'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        category:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - category
+      - created_at
+      - days
+      - end_date
+      - id
+      - owner
+      - private_public_type
+      - progress_type
+      - start_date
+      - title
+      - updated_at
+      - users
+    ChallengeList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 128
+        like_number:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        category:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+        icon:
+          type: string
+          format: uri
+        private_public_type:
+          $ref: '#/components/schemas/PrivatePublicTypeEnum'
+      required:
+      - category
+      - end_date
+      - id
+      - private_public_type
+      - start_date
+      - title
+    DaysEnum:
+      enum:
+      - SUN
+      - MON
+      - TUE
+      - WED
+      - THU
+      - FRI
+      - SAT
+      type: string
+    FeedbackAdd:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          nullable: true
+          maxLength: 128
+        content:
+          type: string
+          maxLength: 1024
+        owner:
+          type: integer
+          nullable: true
+      required:
+      - content
+      - id
+    PrivatePublicTypeEnum:
+      enum:
+      - PU
+      - PR
+      type: string
+    Profile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_name:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          readOnly: true
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - email
+      - id
+      - user_name
+    ProgressTypeEnum:
+      enum:
+      - PE
+      - BO
+      type: string
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: Session
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Bearer

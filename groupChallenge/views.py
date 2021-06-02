@@ -44,6 +44,7 @@ class ChallengeUpdateView(viewsets.ModelViewSet):
 
 class ChallengeDeleteView(viewsets.ModelViewSet):
     queryset = Challenge.objects.all()
+    serializer_class = ChallengeListSerializer
 
 
 class FeedbackAddView(viewsets.ModelViewSet):
