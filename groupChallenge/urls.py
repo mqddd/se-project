@@ -24,8 +24,4 @@ urlpatterns = format_suffix_patterns([
     path('feedback/add/',
          views.FeedbackAddView.as_view({'post': 'create'}),
          name='feedback-add'),
-    # test paths
-    path('user/<int:pk>',
-         views.UserDetailView.as_view({'get': 'retrieve'}),
-         name='user-detail')
 ])
