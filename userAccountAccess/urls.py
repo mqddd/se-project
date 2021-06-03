@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import UserDetailView
 
 urlpatterns = format_suffix_patterns([
-    path('register/<int:pk>/',
+    path('update/<int:pk>/',
          UserDetailView.as_view({'post': 'update'}),
-         name='register'),
+         name='user-update'),
 ])
