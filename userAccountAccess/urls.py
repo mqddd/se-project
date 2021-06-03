@@ -1,6 +1,9 @@
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 from .views import UserDetailView
 
-urlpatterns = [
-    path('register/', UserDetailView, name='register')
-]
+urlpatterns = format_suffix_patterns([
+    path('register/<int:pk>/',
+         UserDetailView.as_view({'post': 'update'}),
+         name='register'),
+])
