@@ -6,7 +6,7 @@ db.sqlite3
 
 # group challenge
 groupChallenge/migrations/
-account/migrations
+userAccountAccess/migrations
 
 # Files
 files/
