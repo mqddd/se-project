@@ -10,3 +10,6 @@ userAccountAccess/migrations
 
 # Files
 files/
+
+# Env
+challenge/.env
