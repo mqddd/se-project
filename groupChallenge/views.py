@@ -21,9 +21,8 @@ class ChallengeListViewForUser(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        profile = Profile.objects.filter(user=user)
         if user.is_authenticated:
-            return Challenge.objects.filter(owner__in=profile)
+            return Challenge.objects.filter(owner=user)
         raise PermissionDenied()
 
 

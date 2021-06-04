@@ -1,1 +1,1 @@
-from groupChallenge.models import Profile
+from groupChallenge.models import User

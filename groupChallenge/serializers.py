@@ -2,13 +2,13 @@ from rest_framework import serializers
 from .models import *
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
-        model = Profile
-        fields = ['id', 'user_name', 'email', 'avatar']
+        model = User
+        fields = ['id', 'user_name', 'email']
 
 
 class ChallengeListSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class ChallengeListSerializer(serializers.ModelSerializer):
 
 
 class ChallengeAddSerializer(serializers.ModelSerializer):
-    users = ProfileSerializer(many=True, read_only=True)
+    users = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Challenge
@@ -33,7 +33,7 @@ class ChallengeAddSerializer(serializers.ModelSerializer):
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
-    users = ProfileSerializer(many=True, read_only=True)
+    users = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Challenge
