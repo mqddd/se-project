@@ -4,7 +4,6 @@ from .models import *
 
 
 admin.site.register(Challenge)
-admin.site.register(Category)
 admin.site.register(Feedback)
 admin.site.register(UserChallengeProgress)
 admin.site.register(PercentProgress)

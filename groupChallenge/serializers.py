@@ -15,7 +15,7 @@ class ChallengeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Challenge
-        fields = ['id', 'title', 'like_number', 'start_date', 'end_date', 'category'
+        fields = ['id', 'title', 'like_number', 'start_date', 'end_date', 'categories'
                   , 'icon', 'private_public_type']
 
 
@@ -33,7 +33,7 @@ class ChallengeAddSerializer(serializers.ModelSerializer):
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
-    users = UserSerializer(many=True, read_only=True)
+    users = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Challenge
@@ -51,9 +51,20 @@ class FeedbackAddSerializer(serializers.ModelSerializer):
         return super(FeedbackAddSerializer, self).to_representation(instance)
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class JoinPublicChallengeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Category
-        fields = '__all__'
+        model = UserChallengeProgress
+        fields = ['user', 'challenge']
+
+    def to_representation(self, instance):
+        self.fields['user'] = serializers.ReadOnlyField(source='user.id')
+        self.fields['challenge'] = serializers.ReadOnlyField(source='challenge.id')
+        return super(JoinPublicChallengeSerializer, self).to_representation(instance)
+
+
+class JoinPrivateChallengeSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField(required=True, allow_null=False)
+    challenge_id = serializers.IntegerField(required=True, allow_null=False)
+    password = serializers.CharField(required=True, allow_null=False)
 

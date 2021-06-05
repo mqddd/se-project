@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import ArrayField
@@ -27,13 +26,21 @@ class Challenge(models.Model):
     FRIDAY = 'FRI'
     SATURDAY = 'SAT'
     DAYS = (
-        (SUNDAY, 'SUNDAY'),
+        (SUNDAY, 'SUN'),
         (MONDAY, 'MON'),
         (TUESDAY, 'TUE'),
         (WEDNESDAY, 'WED'),
         (THURSDAY, 'THU'),
         (FRIDAY, 'FRI'),
         (SATURDAY, 'SAT'),
+    )
+    HEALTH = 'H'
+    SPORT = 'S'
+    LIFESTYLE = 'L'
+    CATEGORIES = (
+        (HEALTH, 'H'),
+        (SPORT, 'S'),
+        (LIFESTYLE, 'L'),
     )
     title = models.CharField(max_length=128, null=False, blank=False)
     description = models.TextField(max_length=1024, blank=True)
@@ -46,9 +53,10 @@ class Challenge(models.Model):
     progress_type = models.CharField(max_length=2, choices=PROGRESS_TYPE, null=False, blank=False)
     icon = models.ImageField(upload_to='files/challenge_icon', blank=True)
     private_public_type = models.CharField(max_length=2, choices=PRIVACY_TYPE, null=False, blank=False)
-    category = models.ManyToManyField('Category', through='ChallengeCategory', blank=True)
+    categories = models.CharField(max_length=20, choices=CATEGORIES, null=True, blank=True)
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.SET_NULL, null=True, blank=False)
     users = models.ManyToManyField(User, related_name='users', through='UserChallengeProgress', null=False, blank=False)
+    password = models.CharField(max_length=128, null=True, blank=True, default=None)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -62,9 +70,8 @@ class Challenge(models.Model):
 class UserChallengeProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    percent_progress = models.ForeignKey('PercentProgress', on_delete=models.CASCADE, null=True, blank=True)
+    boolean_progress = models.ForeignKey('BooleanProgress', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.user.username + ' | ' + self.challenge.title
@@ -86,24 +93,6 @@ class BooleanProgress(models.Model):
 
     def __str__(self):
         return 'Time: %s | Done: %s' % (self.time, self.bool_progress)
-
-
-class Category(models.Model):
-    title = models.CharField(max_length=64, null=False, blank=False)
-    description = models.TextField(max_length=1024, null=False, blank=False)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
-class ChallengeCategory(models.Model):
-    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=False, blank=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
-
-    def __str__(self):
-        return 'Challenge: %s | Category: %s' % (self.challenge.title, self.category.title)
 
 
 class Feedback(models.Model):
